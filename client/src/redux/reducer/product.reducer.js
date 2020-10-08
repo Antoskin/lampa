@@ -1,34 +1,40 @@
-import {api} from "../../testApi";
+import axios from 'axios';
+import {createAction, handleActions} from 'redux-actions';
 
 const initialState = {
-    data: api || [],
+    data: [],
     loading: true,
     error: '',
 }
 
-const productReducer = (state = initialState, {type, payload}) => {
-    switch (type) {
-        case 'PRODUCT_REQUEST':
-            return {
-                ...state,
-                loading: true,
-            }
-        case 'PRODUCT_SUCCESS':
-            return {
-                ...state,
-                data: payload.data,
-                loading: false
-            }
-        case 'PRODUCT_FAILURE': {
-            return {
-                ...state,
-                data: [],
-                loading: false,
-            }
-        }
-        default:
-            return state
-    }
+const fetchProductRequest = createAction('PRODUCT_REQUEST');
+const fetchProductResponse = createAction('PRODUCT_RESPONSE');
+
+export const fetchProducts = () => dispatch => {
+    dispatch(fetchProductRequest());
+    axios.get('http://localhost:5000/api/product/list', {
+        headers: {'Content-Type': 'application/json'}
+    })
+        .then(res => dispatch(fetchProductResponse(res)))
+        .catch(err => dispatch(fetchProductResponse(err)))
 }
+
+const productReducer = handleActions( {
+    [fetchProductRequest]: (state) => {
+        return {
+            ...state,
+            loading: true
+        }
+    },
+    [fetchProductResponse]: (state, {payload}) => {
+        return {
+            ...state,
+            data: payload.data,
+            error: payload.message,
+            loading: false
+        }
+    },
+}, initialState)
+
 
 export default productReducer;

@@ -1,8 +1,9 @@
 const {Router} = require('express');
+const cors = require('cors');
 const router = Router();
 const Product = require('../models/Product');
 
-router.get('/list', async (req, res) => {
+router.get('/list', cors(), async (req, res) => {
     try {
         const productList = await Product.find({});
         console.log('productList', productList);

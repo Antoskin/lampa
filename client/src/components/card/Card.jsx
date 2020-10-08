@@ -5,7 +5,7 @@ function Card(props) {
 
     const {
         product: {
-            thumb,
+            thumbnail,
             title,
             description,
             price
@@ -14,7 +14,7 @@ function Card(props) {
 
     return (
         <ReactCard style={{ width: '18rem' }} className="col-12 col-md-6 col-lg-4">
-            <ReactCard.Img variant="top" src={thumb} />
+            <ReactCard.Img variant="top" src={thumbnail} />
             <ReactCard.Body>
                 <ReactCard.Title>{title}</ReactCard.Title>
                 <ReactCard.Text>
