@@ -1,9 +1,24 @@
 import React from 'react';
+import BucketItem from '../../components/bucketItem';
 
-function Bucket({data}) {
-    console.log('data', data);
+function Bucket({data, totalAmount}) {
     return (
-        <div>card</div>
+        <div className="row">
+            <div className="col-7">
+                {data.map(item => (
+                    <BucketItem key={item._id} item={item} />
+                ))}
+            </div>
+            <div className="col-3">
+                das
+            </div>
+            <div className="col-12">
+                Total price:
+                <span className="text-success font-weight-bold ml-2">
+                    {totalAmount}
+                </span>
+            </div>
+        </div>
     );
 }
 

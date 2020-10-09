@@ -1,5 +1,7 @@
 import React from 'react';
+import {connect} from 'react-redux';
 import {Card as ReactCard, Button} from 'react-bootstrap';
+import {setProductToCard} from '../../redux/reducer/bucket.reducer';
 
 function Card(props) {
 
@@ -8,8 +10,10 @@ function Card(props) {
             thumbnail,
             title,
             description,
-            price
-        }
+            amount,
+            _id: id
+        },
+        setProductToCard
     } = props
 
     return (
@@ -21,9 +25,9 @@ function Card(props) {
                     {description}
                 </ReactCard.Text>
                 <ReactCard.Text>
-                    price: {price} $
+                    price: {amount} $
                 </ReactCard.Text>
-                <Button variant="primary">
+                <Button variant="success" onClick={() => setProductToCard({id, amount})}>
                     add to card
                 </Button>
             </ReactCard.Body>
@@ -31,4 +35,4 @@ function Card(props) {
     );
 }
 
-export default Card;
+export default connect(null, {setProductToCard})(Card);

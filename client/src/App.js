@@ -13,7 +13,7 @@ function App() {
           <Container>
               <Switch>
                   <Route path="/" exact><Main /></Route>
-                  <Route path="/"><Bucket /></Route>
+                  <Route path="/bucket"><Bucket /></Route>
               </Switch>
           </Container>
       </Router>

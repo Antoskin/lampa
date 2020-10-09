@@ -1,12 +1,10 @@
 const {Router} = require('express');
-const cors = require('cors');
 const router = Router();
 const Product = require('../models/Product');
 
-router.get('/list', cors(), async (req, res) => {
+router.get('/list', async (req, res) => {
     try {
         const productList = await Product.find({});
-        console.log('productList', productList);
 
         res.status(200).send(productList);
     } catch (e) {
@@ -14,12 +12,24 @@ router.get('/list', cors(), async (req, res) => {
     }
 })
 
+router.post('/bucket', async (req, res) => {
+    try {
+        const {ids} = req.body;
+
+        const productsInBucket = await Product.find({_id: ids})
+
+        res.status(200).send(productsInBucket);
+    } catch (e) {
+        res.status(400).json({message: e})
+    }
+})
+
 router.post('/add', async (req, res) => {
     try {
-        const {price, title, description, thumbnail} = req.body;
+        const {amount, title, description, thumbnail} = req.body;
 
         const product = new Product({
-            title, description, price, thumbnail
+            title, description, amount, thumbnail
         })
 
         await product.save();
