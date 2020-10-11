@@ -2,13 +2,13 @@ import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
 import {Spinner} from 'react-bootstrap';
 import Bucket from './Bucket';
-import {fetchProducts} from '../../redux/reducer/bucket.reducer';
+import {fetchBucket, removeProduct} from '../../redux/reducer/bucket.reducer';
 
-function BucketContainer({ids, totalAmount, loading, data, fetchProducts}) {
+function BucketContainer({totalAmount, loading, data, fetchBucket, removeProduct}) {
 
     useEffect(() => {
-        fetchProducts(ids)
-    }, [ids, fetchProducts])
+        fetchBucket()
+    }, [fetchBucket])
 
     if (loading) {
         return <Spinner animation='grow' />
@@ -18,10 +18,12 @@ function BucketContainer({ids, totalAmount, loading, data, fetchProducts}) {
         <Bucket
             data={data}
             totalAmount={totalAmount}
+            removeProduct={removeProduct}
         />
     );
 }
 
 export default connect(
-    ({bucket: {ids, data, loading, totalAmount}}) => ({ids, data, loading, totalAmount}), {fetchProducts}
+    ({bucket: {data, loading, totalAmount}}) => ({data, loading, totalAmount}),
+    {fetchBucket, removeProduct}
 )(BucketContainer);

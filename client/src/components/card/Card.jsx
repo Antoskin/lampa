@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Card as ReactCard, Button} from 'react-bootstrap';
-import {setProductToCard} from '../../redux/reducer/bucket.reducer';
+import {setBucketHandle} from '../../redux/reducer/bucket.reducer';
 
 function Card(props) {
 
@@ -13,7 +13,7 @@ function Card(props) {
             amount,
             _id: id
         },
-        setProductToCard
+        setBucketHandle
     } = props
 
     return (
@@ -27,7 +27,7 @@ function Card(props) {
                 <ReactCard.Text>
                     price: {amount} $
                 </ReactCard.Text>
-                <Button variant="success" onClick={() => setProductToCard({id, amount})}>
+                <Button variant="success" onClick={() => setBucketHandle(id)}>
                     add to card
                 </Button>
             </ReactCard.Body>
@@ -35,4 +35,4 @@ function Card(props) {
     );
 }
 
-export default connect(null, {setProductToCard})(Card);
+export default connect(null, {setBucketHandle})(Card);

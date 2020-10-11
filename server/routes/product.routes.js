@@ -12,18 +12,6 @@ router.get('/list', async (req, res) => {
     }
 })
 
-router.post('/bucket', async (req, res) => {
-    try {
-        const {ids} = req.body;
-
-        const productsInBucket = await Product.find({_id: ids})
-
-        res.status(200).send(productsInBucket);
-    } catch (e) {
-        res.status(400).json({message: e})
-    }
-})
-
 router.post('/add', async (req, res) => {
     try {
         const {amount, title, description, thumbnail} = req.body;

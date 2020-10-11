@@ -13,7 +13,7 @@ const fetchProductResponse = createAction('PRODUCT_RESPONSE');
 export const fetchProducts = () => dispatch => {
     dispatch(fetchProductRequest());
     axios.get('http://localhost:5000/api/product/list', {
-        headers: {'Content-Type': 'application/json'}
+        headers: {'Content-Type': 'Application/json'}
     })
         .then(res => dispatch(fetchProductResponse(res)))
         .catch(err => dispatch(fetchProductResponse(err)))
