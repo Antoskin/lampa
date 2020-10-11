@@ -10,13 +10,10 @@ function BucketContainer({totalAmount, loading, data, fetchBucket, removeProduct
         fetchBucket()
     }, [fetchBucket])
 
-    if (loading) {
-        return <Spinner animation='grow' />
-    }
-
     return (
         <Bucket
             data={data}
+            loading={loading}
             totalAmount={totalAmount}
             removeProduct={removeProduct}
         />
