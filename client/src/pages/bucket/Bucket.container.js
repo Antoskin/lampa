@@ -1,6 +1,5 @@
 import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
-import {Spinner} from 'react-bootstrap';
 import Bucket from './Bucket';
 import {fetchBucket, removeProduct} from '../../redux/reducer/bucket.reducer';
 

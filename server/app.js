@@ -13,6 +13,7 @@ const PORT = config.get('port');
 
 app.use('/api/product', require('./routes/product.routes'));
 app.use('/api/bucket', require('./routes/bucket.routes'));
+app.use('/api/orders', require('./routes/orders.routes'));
 
 app.get('/', (req, res) => {
     res.status(200).json({message: 'it works'})

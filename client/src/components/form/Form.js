@@ -1,15 +1,11 @@
 import React from 'react';
-import {Field, reduxForm} from 'redux-form';
+import {Field} from 'redux-form';
 import {Button} from 'react-bootstrap';
 
-function Form({handleSubmit}) {
-
-    const submit = val => {
-        console.log('val', val);
-    }
+function Form({onSubmit, handleSubmit}) {
 
     return (
-        <form onSubmit={handleSubmit(submit)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
             <Field
                 name="name"
                 component="input"
@@ -43,6 +39,4 @@ function Form({handleSubmit}) {
     );
 }
 
-export default reduxForm({
-    form: 'order',
-})(Form);
+export default Form
