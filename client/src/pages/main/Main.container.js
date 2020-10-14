@@ -4,11 +4,11 @@ import {Spinner, Alert} from 'react-bootstrap';
 import Main from './Main';
 import {fetchProducts} from '../../redux/reducer/product.reducer';
 
-function MainContainer({products: {data, loading, error}, fetchProducts}) {
+function MainContainer({data, loading, error, loaded, fetchProducts}) {
 
     useEffect(() => {
-        fetchProducts()
-    }, [fetchProducts])
+        !loaded && fetchProducts()
+    }, [loaded, fetchProducts])
 
     if (loading) {
         return <Spinner animation='grow' />
@@ -24,5 +24,11 @@ function MainContainer({products: {data, loading, error}, fetchProducts}) {
 }
 
 export default connect(
-    ({products}) => ({products}), {fetchProducts}
+    ({products: {
+        data,
+        loading,
+        error,
+        loaded
+    }}) => ({data, loading, error, loaded}),
+    {fetchProducts}
 )(MainContainer);

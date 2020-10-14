@@ -1,7 +1,8 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Card as ReactCard, Button} from 'react-bootstrap';
-import {setBucketHandle} from '../../redux/reducer/bucket.reducer';
+import {ImBoxAdd} from 'react-icons/im'
+import {Card as BCard, Button} from 'react-bootstrap';
+import {addToBucket} from '../../redux/reducer/bucket.reducer';
 
 function Card(props) {
 
@@ -13,26 +14,29 @@ function Card(props) {
             amount,
             _id: id
         },
-        setBucketHandle
+        addToBucket,
     } = props
 
     return (
-        <ReactCard style={{ width: '18rem' }} className="col-12 col-md-6 col-lg-4">
-            <ReactCard.Img variant="top" src={thumbnail} />
-            <ReactCard.Body>
-                <ReactCard.Title>{title}</ReactCard.Title>
-                <ReactCard.Text>
-                    {description}
-                </ReactCard.Text>
-                <ReactCard.Text>
-                    price: {amount} $
-                </ReactCard.Text>
-                <Button variant="success" onClick={() => setBucketHandle(id)}>
-                    add to card
-                </Button>
-            </ReactCard.Body>
-        </ReactCard>
+        <div className="col-12 col-md-6 col-lg-4 d-flex justify-content-center">
+            <BCard style={{ width: '18rem' }}>
+                <BCard.Img variant="top" src={thumbnail} />
+                <BCard.Body>
+                    <BCard.Title>{title}</BCard.Title>
+                    <BCard.Text>
+                        {description}
+                    </BCard.Text>
+                    <BCard.Text>
+                        price: {amount} $
+                    </BCard.Text>
+                    <Button variant="success"
+                            onClick={() => addToBucket(id)}>
+                        <ImBoxAdd />
+                    </Button>
+                </BCard.Body>
+            </BCard>
+        </div>
     );
 }
 
-export default connect(null, {setBucketHandle})(Card);
+export default connect(null, {addToBucket})(Card);

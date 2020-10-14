@@ -2,8 +2,9 @@ import React, {Fragment} from 'react';
 import {compose} from 'redux';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
-import {Navbar, Nav, Button} from 'react-bootstrap';
+import {Navbar, Nav, Button, Badge} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
+import {BsBucketFill} from 'react-icons/bs'
 
 function Header({history, totalAmount}) {
     return (
@@ -15,10 +16,12 @@ function Header({history, totalAmount}) {
                 </Nav>
                 {history.location.pathname.includes('/bucket') || (
                     <Fragment>
-                        <span className="mr-5 text-success">
-                            {totalAmount >= 1 && totalAmount}
-                        </span>
-                        <Button onClick={() => history.push('/bucket')}>bucket</Button>
+                        <Button variant="success" onClick={() => !!totalAmount && history.push('/bucket')}>
+                            <BsBucketFill />
+                            <Badge variant="light" className="ml-3">
+                                {!!totalAmount && `${totalAmount} $`}
+                            </Badge>
+                        </Button>
                     </Fragment>
 
                 )}

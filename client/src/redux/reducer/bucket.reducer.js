@@ -14,27 +14,24 @@ const fetchBucketResponse = createAction('BUCKET_LIST_RESPONSE');
 const responseSetBucket = createAction('RESPONSE_SET_BUCKET');
 const removeProductResponse = createAction('REMOVE_PRODUCT_FROM_BUCKET');
 
-export const setBucketHandle = (id, count = 1) => dispatch => {
-    dispatch(requestBucket());
-    axios.post('http://localhost:5000/api/bucket/add', {id, count}, {
-        headers: {'Content-Type': 'application/json'}
-    })
-        .then(res => dispatch(responseSetBucket(res)))
-        .catch(err => dispatch(responseSetBucket(err)))
-}
 
-export const fetchBucket = () => dispatch => {
+export const fetchBucketList = () => dispatch => {
     dispatch(requestBucket());
-    axios.get('http://localhost:5000/api/bucket/list', {
-        headers: {'Content-Type': 'Application/json'}
-    })
+    axios.get('http://localhost:5000/api/bucket/list')
         .then(res => dispatch(fetchBucketResponse(res)))
         .catch(err => dispatch(fetchBucketResponse(err)))
 }
 
-export const removeProduct = (id) => dispatch => {
+export const addToBucket = (id) => dispatch => {
     dispatch(requestBucket());
-    console.log('id', id);
+    axios.post('http://localhost:5000/api/bucket/add', {id})
+        .then(res => dispatch(responseSetBucket(res)))
+        .then(() => dispatch(fetchBucketList()))
+        .catch(err => dispatch(responseSetBucket(err)))
+}
+
+export const removeFromBucket = (id) => dispatch => {
+    dispatch(requestBucket());
     axios.delete(`http://localhost:5000/api/bucket/delete/${id}`, {
         headers: {'Content-Type': 'Application/json'}
     })
@@ -50,12 +47,19 @@ const bucketReducer = handleActions({
         loading: false,
         error: payload.message
     }),
-    [fetchBucketResponse]: (state, {payload}) => ({
-        ...state,
-        data: payload.data,
-        error: payload.message,
-        loading: false,
-    }),
+    [fetchBucketResponse]: (state, {payload}) => {
+        const total = payload.data.reduce((acc, cur) =>
+            acc + (cur.amount * cur.count)
+            , 0);
+
+        return {
+            ...state,
+            data: payload.data,
+            error: payload.message,
+            totalAmount: total,
+            loading: false,
+        }
+    },
     [removeProductResponse]: (state, {payload}) => ({
         ...state,
         data: payload.data || [],

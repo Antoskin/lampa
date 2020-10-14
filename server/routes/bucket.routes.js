@@ -5,27 +5,30 @@ const Product = require('../models/Product');
 
 router.get('/list', async (req, res) => {
     try {
-        const productIds = await Bucket.find({});
-        const ids = productIds.map(({_id}) => _id);
-        const bucketList = await Product.find({_id: ids});
-        res.status(200).send(bucketList);
+        const productList = await Bucket.find({});
+
+        res.status(200).send(productList);
     } catch (e) {
         res.status(400).json({message: e})
     }
 })
 
 router.post('/add', async (req, res) => {
+    const {id} = req.body;
+
     try {
-        const isExists = await Bucket.findOne({ _id: req.body.id });
+        let isExists = await Bucket.findByIdAndUpdate(id, {$inc: {'count': 1}});
 
         if (isExists) {
-            return res.status(400).json({
-                message: 'already in the bucket!!!'
-            })
+            await isExists.save();
+
+            const updatedList = await Bucket.find({});
+
+            return res.status(200).send(updatedList);
         }
 
-        const {_id} = await Product.findById(req.body.id);
-        const product = new Bucket({_id});
+        const {_id, amount, title, description, thumbnail} = await Product.findById(id);
+        const product = new Bucket({_id, amount, title, description, thumbnail});
 
         await product.save();
 

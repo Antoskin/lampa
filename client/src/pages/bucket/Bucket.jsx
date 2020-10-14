@@ -3,7 +3,7 @@ import {Spinner} from 'react-bootstrap';
 import BucketItem from '../../components/bucketItem';
 import Form from '../../components/form';
 
-function Bucket({data, totalAmount, removeProduct, loading}) {
+function Bucket({data, totalAmount, removeFromBucket, loading}) {
     return (
         <div className="row">
             <div className="col-7">
@@ -12,7 +12,7 @@ function Bucket({data, totalAmount, removeProduct, loading}) {
                         <BucketItem
                             key={item._id}
                             item={item}
-                            removeProduct={removeProduct}
+                            removeFromBucket={removeFromBucket}
                         />
                 ))}
             </div>

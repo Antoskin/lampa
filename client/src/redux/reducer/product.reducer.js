@@ -1,9 +1,11 @@
 import axios from 'axios';
 import {createAction, handleActions} from 'redux-actions';
+import {fetchBucketList} from './bucket.reducer';
 
 const initialState = {
     data: [],
     loading: true,
+    loaded: false,
     error: '',
 }
 
@@ -16,6 +18,7 @@ export const fetchProducts = () => dispatch => {
         headers: {'Content-Type': 'Application/json'}
     })
         .then(res => dispatch(fetchProductResponse(res)))
+        .then(() => dispatch(fetchBucketList()))
         .catch(err => dispatch(fetchProductResponse(err)))
 }
 
@@ -23,7 +26,8 @@ const productReducer = handleActions( {
     [fetchProductRequest]: (state) => {
         return {
             ...state,
-            loading: true
+            loading: true,
+            loaded: false,
         }
     },
     [fetchProductResponse]: (state, {payload}) => {
@@ -31,7 +35,8 @@ const productReducer = handleActions( {
             ...state,
             data: payload.data,
             error: payload.message,
-            loading: false
+            loading: false,
+            loaded: true
         }
     },
 }, initialState)

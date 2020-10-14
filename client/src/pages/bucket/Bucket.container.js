@@ -1,25 +1,25 @@
 import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
 import Bucket from './Bucket';
-import {fetchBucket, removeProduct} from '../../redux/reducer/bucket.reducer';
+import {fetchBucketList, removeFromBucket} from '../../redux/reducer/bucket.reducer';
 
-function BucketContainer({totalAmount, loading, data, fetchBucket, removeProduct}) {
+function BucketContainer({totalAmount, loading, data, fetchBucketList, removeFromBucket}) {
 
     useEffect(() => {
-        fetchBucket()
-    }, [fetchBucket])
+        fetchBucketList()
+    }, [fetchBucketList])
 
     return (
         <Bucket
             data={data}
             loading={loading}
             totalAmount={totalAmount}
-            removeProduct={removeProduct}
+            removeFromBucket={removeFromBucket}
         />
     );
 }
 
 export default connect(
     ({bucket: {data, loading, totalAmount}}) => ({data, loading, totalAmount}),
-    {fetchBucket, removeProduct}
+    {fetchBucketList, removeFromBucket}
 )(BucketContainer);
