@@ -37,12 +37,17 @@ router.post('/add', async (req, res) => {
 
 router.post('/delete', async (req, res) => {
     try {
-        const { id, count } = req.body;
+        const { id, type } = req.body;
 
-        if (count === 0) { // delete from bucket
+        if (type === 'remove') { // delete from bucket
             await Bucket.findByIdAndDelete(id);
             const updatedList = await Bucket.find({});
-            return res.status(200).send(updatedList)
+            return res.status(201).send(updatedList)
+        }
+
+        if (type === 'all') { //clear bucket
+            await Bucket.deleteMany();
+            return res.status(201).send([]);
         }
 
         // decrement product
@@ -57,7 +62,7 @@ router.post('/delete', async (req, res) => {
 
         const updatedList = await Bucket.find({});
 
-        res.status(200).send(updatedList);
+        res.status(201).send(updatedList);
     } catch (e) {
         res.status(400).json({message: e})
     }

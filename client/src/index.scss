@@ -1,1 +1,12 @@
 @import '~bootstrap/scss/bootstrap';
+
+.field-input {
+  position: relative;
+}
+
+.text-danger {
+  position: absolute;
+  font-size: 9px;
+  bottom: -13px;
+  right: 0;
+}

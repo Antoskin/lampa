@@ -4,35 +4,39 @@ import {Button} from 'react-bootstrap';
 
 function Form({onSubmit, handleSubmit}) {
 
+    const renderField = ({ input, type, placeholder, meta: { touched, error } }) => (
+        <div className="field-input">
+            <label className="d-block">{placeholder}</label>
+            <input {...input} type={type} className="form-control mb-2" />
+            {touched && ((error && <span className="text-danger">{error}</span>))}
+        </div>
+    )
+
     return (
         <form className="col-4" onSubmit={handleSubmit(onSubmit)}>
             <Field
                 name="name"
-                component="input"
+                component={renderField}
                 type="text"
                 placeholder="Name"
-                className="form-control mb-2"
             />
             <Field
                 name="surname"
-                component="input"
+                component={renderField}
                 type="text"
                 placeholder="Surname"
-                className="form-control mb-2"
             />
             <Field
                 name="address"
-                component="input"
+                component={renderField}
                 type="text"
                 placeholder="Address"
-                className="form-control mb-2"
             />
             <Field
                 name="phone"
-                component="input"
+                component={renderField}
                 type="number"
                 placeholder="Phone"
-                className="form-control mb-3"
             />
             <Button type="submit" label="submit">Make order</Button>
         </form>

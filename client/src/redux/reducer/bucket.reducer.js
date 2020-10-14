@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {createAction, handleActions} from 'redux-actions';
 import {getTotal} from '../../utils';
+import {resetOrder} from './orders.reducer';
 
 const initialState = {
     data: [],
@@ -30,10 +31,11 @@ export const addToBucket = id => dispatch => {
         .catch(err => dispatch(responseSetBucket(err)))
 }
 
-export const removeFromBucket = (id, count = null) => dispatch => {
+export const removeFromBucket = ({id, type = ''}) => dispatch => {
     dispatch(requestBucket());
-    axios.post(`http://localhost:5000/api/bucket/delete`, {id, count})
+    axios.post(`http://localhost:5000/api/bucket/delete`, {id, type})
         .then(res => dispatch(removeProductResponse(res)))
+        .then(() => type === 'all' && dispatch(resetOrder()))
         .catch(err => dispatch(removeProductResponse(err)))
 }
 

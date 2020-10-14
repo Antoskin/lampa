@@ -3,23 +3,22 @@ import {compose} from 'redux';
 import {connect} from 'react-redux';
 import {reduxForm} from 'redux-form';
 import Form from './Form';
+import {validate} from '../../utils';
 import {setOrder} from '../../redux/reducer/orders.reducer';
 
 const FormContainer = ({setOrder, bucket: {data}, ...args}) => {
 
-    const submit = val => {
-        const orderIds = data.map(order => ({productId: order._id}));
+    const submit = contactFields => {
+        const products = data.map(order => ({productId: order._id, count: order.count}));
 
         const newOrder = {
-            ...val,
-            orders: orderIds
+            ...contactFields,
+            orders: products
         }
-        
-        console.log('newOrder', newOrder);
 
-        //setOrder(JSON.stringify(newOrder));
+        setOrder(JSON.stringify(newOrder));
     }
-
+    
     return (
         <Form onSubmit={submit}
             {...args} />
@@ -29,6 +28,7 @@ const FormContainer = ({setOrder, bucket: {data}, ...args}) => {
 export default compose(
     reduxForm({
         form: 'order',
+        validate
     }),
     connect(({bucket}) => ({bucket}), {setOrder})
 )(FormContainer);
