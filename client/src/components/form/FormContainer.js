@@ -6,8 +6,6 @@ import Form from './Form';
 import {setOrder} from '../../redux/reducer/orders.reducer';
 
 const FormContainer = ({setOrder, bucket: {data}, ...args}) => {
-    
-    // console.log('bucket', data);
 
     const submit = val => {
         const orderIds = data.map(order => ({productId: order._id}));
@@ -16,15 +14,15 @@ const FormContainer = ({setOrder, bucket: {data}, ...args}) => {
             ...val,
             orders: orderIds
         }
+        
+        console.log('newOrder', newOrder);
 
-        setOrder(JSON.stringify(newOrder));
+        //setOrder(JSON.stringify(newOrder));
     }
 
     return (
-        <Form 
-            onSubmit={submit}
-            {...args} 
-        />
+        <Form onSubmit={submit}
+            {...args} />
     )
 }
 

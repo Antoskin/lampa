@@ -26,7 +26,7 @@ function BucketItem(props) {
                         <div>Price: {amount}$</div>
                     </div>
                     <div className="col-4 d-flex align-items-center justify-content-end">
-                        <Button variant="danger" >
+                        <Button variant="danger" onClick={() => removeFromBucket({_id})} >
                             <FaMinus />
                         </Button>
                         <span className="ml-2 mr-2">{count}</span>
@@ -36,7 +36,7 @@ function BucketItem(props) {
                         <FaTimes
                             className="position-absolute"
                             style={{top: 0, right: 0, cursor: 'pointer'}}
-                            onClick={() => removeFromBucket(_id)}
+                            onClick={() => removeFromBucket(_id, 0)}
                         />
                     </div>
                 </div>

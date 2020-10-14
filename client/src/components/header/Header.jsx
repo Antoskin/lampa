@@ -16,7 +16,7 @@ function Header({history, totalAmount}) {
                 </Nav>
                 {history.location.pathname.includes('/bucket') || (
                     <Fragment>
-                        <Button variant="success" onClick={() => !!totalAmount && history.push('/bucket')}>
+                        <Button variant="dark" onClick={() => !!totalAmount && history.push('/bucket')}>
                             <BsBucketFill />
                             <Badge variant="light" className="ml-3">
                                 {!!totalAmount && `${totalAmount} $`}

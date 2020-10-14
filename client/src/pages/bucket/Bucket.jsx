@@ -3,10 +3,10 @@ import {Spinner} from 'react-bootstrap';
 import BucketItem from '../../components/bucketItem';
 import Form from '../../components/form';
 
-function Bucket({data, totalAmount, removeFromBucket, loading}) {
+function Bucket({data: {data, loading, totalAmount}, removeFromBucket}) {
     return (
         <div className="row">
-            <div className="col-7">
+            <div className="col-8">
                 {loading ? <Spinner animation='grow' />  :
                     data.map(item => (
                         <BucketItem
@@ -16,9 +16,7 @@ function Bucket({data, totalAmount, removeFromBucket, loading}) {
                         />
                 ))}
             </div>
-            <div className="col-3">
-                <Form />
-            </div>
+            <Form />
             <div className="col-12">
                 Total price:
                 <span className="text-success font-weight-bold ml-2">

@@ -6,7 +6,6 @@ const Product = require('../models/Product');
 router.get('/list', async (req, res) => {
     try {
         const productList = await Bucket.find({});
-
         res.status(200).send(productList);
     } catch (e) {
         res.status(400).json({message: e})
@@ -14,43 +13,51 @@ router.get('/list', async (req, res) => {
 })
 
 router.post('/add', async (req, res) => {
-    const {id} = req.body;
-
     try {
-        let isExists = await Bucket.findByIdAndUpdate(id, {$inc: {'count': 1}});
+        //increment product
+        const incrementedProduct = await Bucket.findByIdAndUpdate(
+                req.body.id, {$inc: {'count': 1}});
 
-        if (isExists) {
-            await isExists.save();
-
+        if (incrementedProduct) {
             const updatedList = await Bucket.find({});
-
             return res.status(200).send(updatedList);
         }
 
-        const {_id, amount, title, description, thumbnail} = await Product.findById(id);
-        const product = new Bucket({_id, amount, title, description, thumbnail});
+        //add new product to bucket
+        const {_id, amount, title, description, thumbnail} = await Product.findById(req.body.id),
+            product = new Bucket({_id, amount, title, description, thumbnail});
+            await product.save();
+        const updatedList = await Bucket.find({})
 
-        await product.save();
-
-        res.status(201).send(product);
+        res.status(201).send(updatedList);
     } catch (e) {
         res.status(400).json({message: e});
     }
 })
 
-router.delete('/delete/:id', async (req, res) => {
+router.post('/delete', async (req, res) => {
     try {
-        const product = await Bucket.findByIdAndDelete(req.params.id);
+        const { id, count } = req.body;
 
-        if (!product) {
-            return res.status(400).send()
+        if (count === 0) { // delete from bucket
+            await Bucket.findByIdAndDelete(id);
+            const updatedList = await Bucket.find({});
+            return res.status(200).send(updatedList)
+        }
+
+        // decrement product
+        const decrementedProduct = await Bucket.findByIdAndUpdate(id, {$inc: {'count': -1}}, {
+            new: true
+        })
+
+        // if count === 0 delete from bucket
+        if (decrementedProduct.count <= 0) {
+            await Bucket.findByIdAndDelete(decrementedProduct._id);
         }
 
         const updatedList = await Bucket.find({});
-        const ids = updatedList.map(({_id}) => _id);
-        const bucketList = await Product.find({_id: ids});
 
-        res.status(201).send(bucketList)
+        res.status(200).send(updatedList);
     } catch (e) {
         res.status(400).json({message: e})
     }

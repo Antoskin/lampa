@@ -5,7 +5,7 @@ import {Button} from 'react-bootstrap';
 function Form({onSubmit, handleSubmit}) {
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form className="col-4" onSubmit={handleSubmit(onSubmit)}>
             <Field
                 name="name"
                 component="input"
