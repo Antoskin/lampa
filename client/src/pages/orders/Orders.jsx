@@ -1,6 +1,7 @@
 import React, {Fragment} from 'react';
 
 function Orders({data}) {
+    console.log('data', data);
     return (
         <Fragment>
             {data.map(order => (

@@ -5,6 +5,7 @@ import {withRouter} from 'react-router-dom';
 import Alert from 'react-bootstrap/Alert';
 import Bucket from './Bucket';
 import {fetchBucketList, removeFromBucket} from '../../redux/reducer/bucket.reducer';
+import {Button} from "react-bootstrap";
 
 function BucketContainer(props) {
     const {
@@ -25,10 +26,14 @@ function BucketContainer(props) {
         return history.push('/orders');
     }
 
-    if (!!orders.success) {
+    if (orders.success) {
         return (
-            <Alert variant='success' onClick={toOrders}>
+            <Alert variant='success'>
                 order was created successfully
+                <Button style={{'float': 'right', 'marginTop': '-7px'}}
+                        variant="success"
+                        onClick={toOrders()}>orders
+                </Button>
             </Alert>
         )
     }

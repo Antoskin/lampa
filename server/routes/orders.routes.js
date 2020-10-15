@@ -15,11 +15,12 @@ router.get('/list', async (req, res) => {
 router.post('/add', async (req, res) => {
     try {
         const fields = req.body;
-
         const newOrder = await new Orders(fields);
         await newOrder.save();
 
-        res.status(201).json({message: 'success'});
+        const orderList = await Orders.find({})
+
+        res.status(201).send(orderList);
     } catch (e) {
         res.status(400).json({message: e})
     }

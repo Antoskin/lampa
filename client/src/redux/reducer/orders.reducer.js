@@ -2,7 +2,7 @@ import axios from 'axios';
 import {createAction, handleActions} from 'redux-actions';
 
 const initialState = {
-    success: '',
+    success: null,
     data: [],
     loading: true,
     error: '',
@@ -11,11 +11,13 @@ const initialState = {
 const setOrderRequest = createAction('ORDER_REQUEST');
 const setOrderResponse = createAction('ORDER_RESPONSE');
 const fetchOrdersResponse = createAction('GET_ORDERS_RESPONSE');
-export const resetOrder = createAction('ORDER_RESET', index => index);
+//export const resetOrder = createAction('ORDER_RESET', index => index);
 
 export const setOrder = (data) => dispatch => {
     dispatch(setOrderRequest());
-    axios.post('http://localhost:5000/api/orders/add', data)
+    axios.post('http://localhost:5000/api/orders/add', data, {
+        headers: {'Content-Type': 'Application/json'}
+    })
         .then(res => dispatch(setOrderResponse(res)))
         .catch(err => dispatch(setOrderResponse(err)))
 }
@@ -31,7 +33,8 @@ const orderReducer = handleActions( {
     [setOrderRequest]: (state) => ({...state, loading: true}),
     [setOrderResponse]: (state, {payload}) => ({
         ...state,
-        success: payload.data.message || '',
+        success: payload.data && true,
+        data: payload.data,
         error: payload.message,
         loading: false
     }),
@@ -39,12 +42,11 @@ const orderReducer = handleActions( {
         return {
             ...state,
             data: data,
-            success: '',
+            success: null,
             error: message,
             loading: false,
         }
     },
-    [resetOrder]: (state) => ({...state, success: ''})
 }, initialState)
 
 
